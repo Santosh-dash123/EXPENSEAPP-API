@@ -40,7 +40,7 @@ namespace ExpenseAppAPI.Controllers
 
         [HttpPost]
         [Route("/AddRooms")]
-        public async Task<ActionResult<RoomDto>> AddRooms([FromBody] CreateRoomDto dto)
+        public async Task<ActionResult<RoomDto>> AddRooms([FromForm] CreateRoomDto dto)
         {
             var result = await _service.AddRooms(dto);
 
@@ -49,7 +49,7 @@ namespace ExpenseAppAPI.Controllers
         }
         [HttpPost]
         [Route("/UpdateRoom")]
-        public async Task<ActionResult<RoomDto>> UpdateRoom([FromBody] RoomDto dto)
+        public async Task<ActionResult<RoomDto>> UpdateRoom([FromForm] CreateRoomDto dto)
         {
             var result = await _service.UpdateRoom(dto);
 

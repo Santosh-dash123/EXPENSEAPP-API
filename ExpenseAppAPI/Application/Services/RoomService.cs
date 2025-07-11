@@ -1,6 +1,7 @@
-﻿using ExpenseAppAPI.Application.DTOs;
-using AutoMapper;
+﻿using AutoMapper;
+using ExpenseAppAPI.Application.DTOs;
 using ExpenseAppAPI.Domain.Entities;
+using ExpenseAppAPI.Helpers;
 using ExpenseAppAPI.Infrastructure.Interfaces;
 namespace ExpenseAppAPI.Application.Services
 {
@@ -30,13 +31,33 @@ namespace ExpenseAppAPI.Application.Services
         public async Task<RoomDto> AddRooms(CreateRoomDto dto)
         {
             var room = _mapper.Map<Room_Mst>(dto);
+            if (dto.Image != null)
+            {
+                string savedPath = await FileUploadHelper.SaveImageAsync(dto.Image, "assets/images");
+                room.Image = savedPath;
+            }
             var added = await _repository.AddRooms(room);
             return _mapper.Map<RoomDto>(added);
         }
 
-        public async Task<RoomDto> UpdateRoom(RoomDto dto)
+        public async Task<RoomDto> UpdateRoom(CreateRoomDto dto)
         {
+            var existingRoom = await _repository.GetParticularRoom(dto.Id);
+            if (existingRoom == null)
+            {
+                throw new Exception("Room not found.");
+            }
             var room = _mapper.Map<Room_Mst>(dto);
+            if (dto.Image != null)
+            {
+                string savedPath = await FileUploadHelper.SaveImageAsync(dto.Image, "assets/images");
+                room.Image = savedPath;
+            }
+            else
+            {
+                room.Image = existingRoom.Image;
+            }
+
             var updated = await _repository.UpdateRoom(room);
             return _mapper.Map<RoomDto>(updated);
         }
