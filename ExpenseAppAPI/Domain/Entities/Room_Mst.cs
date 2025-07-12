@@ -3,6 +3,7 @@
     public class Room_Mst
     {
         public int Id { get; set; }
+        public int RoomOwnerId { get; set; }
         public string? Name { get; set; }
         public string? Image { get; set; }
         public string? Address { get; set; }

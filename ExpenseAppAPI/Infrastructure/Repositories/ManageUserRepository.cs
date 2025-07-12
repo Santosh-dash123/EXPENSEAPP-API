@@ -1,4 +1,5 @@
 ﻿using ExpenseAppAPI.Domain.Entities;
+using ExpenseAppAPI.Helpers;
 using ExpenseAppAPI.Infrastructure.Data;
 using ExpenseAppAPI.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -24,11 +25,13 @@ namespace ExpenseAppAPI.Infrastructure.Repositories
         {
             if (user != null)
             {
-                var userIsPresent = await _context.ManageUser
-                    .Where(x => (x.Email == user.Email || x.PhoneNumber == user.PhoneNumber) && x.Password == user.Password)
-                    .FirstOrDefaultAsync();
+                var userInDb = await _context.ManageUser
+                            .FirstOrDefaultAsync(x => x.Email == user.Email || x.PhoneNumber == user.PhoneNumber);
 
-                return userIsPresent != null ? userIsPresent : null;
+                if (userInDb != null && PasswordHelper.VerifyPassword(userInDb.Password!, user.Password!))
+                {
+                    return userInDb;
+                }
             }
 
             return null;

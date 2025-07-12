@@ -14,7 +14,7 @@ namespace ExpenseAppAPI.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<List<Room_Mst>> GetAllRooms() => await _context.Room_Mst.Where(x => x.IsActive == true).ToListAsync();
+        public async Task<List<Room_Mst>> GetAllRooms(int ROId) => await _context.Room_Mst.Where(x => x.IsActive == true && x.RoomOwnerId == ROId).ToListAsync();
 
         public async Task<Room_Mst> GetParticularRoom(int id) => await _context.Room_Mst.FindAsync(id);
 

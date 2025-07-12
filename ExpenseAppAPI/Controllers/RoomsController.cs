@@ -18,10 +18,10 @@ namespace ExpenseAppAPI.Controllers
         }
 
         [HttpGet]
-        [Route("/GetRooms")]
-        public async Task<ActionResult<List<RoomDto>>> GetRooms()
+        [Route("/GetRooms/{ROId}")]
+        public async Task<ActionResult<List<RoomDto>>> GetRooms(int ROId)
         {
-            return Ok(await _service.GetAllRooms());
+            return Ok(await _service.GetAllRooms(ROId));
         }
 
         [HttpGet]
@@ -45,7 +45,7 @@ namespace ExpenseAppAPI.Controllers
             var result = await _service.AddRooms(dto);
 
             var response = new ApiResponse<RoomDto>("Room Created Successfully",result);
-            return CreatedAtAction(nameof(GetRooms), new { id = result.Id }, response);
+            return CreatedAtAction(nameof(GetRooms), new { ROId = result.RoomOwnerId }, response);
         }
         [HttpPost]
         [Route("/UpdateRoom")]
@@ -54,7 +54,7 @@ namespace ExpenseAppAPI.Controllers
             var result = await _service.UpdateRoom(dto);
 
             var response = new ApiResponse<RoomDto>("Room Updated Successfully", result);
-            return CreatedAtAction(nameof(GetRooms), new { id = result.Id }, response);
+            return CreatedAtAction(nameof(GetRooms), new { ROId = result.RoomOwnerId }, response);
         }
         [HttpDelete]
         [Route("/DeleteRoom/{id}")]

@@ -3,6 +3,7 @@
     public class CreateRoomDto
     {
         public int Id { get; set; }
+        public int RoomOwnerId { get; set; }
         public string? Name { get; set; }
         public IFormFile? Image { get; set; }
         public string? Address { get; set; }

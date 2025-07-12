@@ -16,9 +16,9 @@ namespace ExpenseAppAPI.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<List<RoomDto>> GetAllRooms()
+        public async Task<List<RoomDto>> GetAllRooms(int ROId)
         {
-            var rooms = await _repository.GetAllRooms();
+            var rooms = await _repository.GetAllRooms(ROId);
             return _mapper.Map<List<RoomDto>>(rooms);
         }
 
