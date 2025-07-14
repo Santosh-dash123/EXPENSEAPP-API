@@ -8,7 +8,7 @@
         public string? PhoneNumber { get; set; }
         public string? Password { get; set; }
         public int UserType { get; set; }
-        public int RoomOwnerId { get; set; }
+        public int? RoomOwnerId { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
     }

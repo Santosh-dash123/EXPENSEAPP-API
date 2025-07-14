@@ -1,4 +1,5 @@
-﻿using ExpenseAppAPI.Domain.Entities;
+﻿using ExpenseAppAPI.Application.Response;
+using ExpenseAppAPI.Domain.Entities;
 using ExpenseAppAPI.Helpers;
 using ExpenseAppAPI.Infrastructure.Data;
 using ExpenseAppAPI.Infrastructure.Interfaces;
@@ -15,26 +16,32 @@ namespace ExpenseAppAPI.Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<ManageUser> AddUser(ManageUser user)
+        public async Task<ApiResponse<ManageUser>> AddUser(ManageUser user)
         {
             _context.ManageUser.Add(user);
             await _context.SaveChangesAsync();
-            return user;
+            return new ApiResponse<ManageUser>("User Registered Successfully!", user);
         }
         public async Task<ManageUser?> CheckLogin(ManageUser user)
         {
             if (user != null)
             {
-                var userInDb = await _context.ManageUser
-                            .FirstOrDefaultAsync(x => x.Email == user.Email || x.PhoneNumber == user.PhoneNumber);
+                var userIsPresent = await _context.ManageUser
+                    .Where(x => (x.Email == user.Email || x.PhoneNumber == user.PhoneNumber) && x.Password == user.Password)
+                    .FirstOrDefaultAsync();
 
-                if (userInDb != null && PasswordHelper.VerifyPassword(userInDb.Password!, user.Password!))
-                {
-                    return userInDb;
-                }
+                return userIsPresent != null ? userIsPresent : null;
             }
 
             return null;
+        }
+
+        //On Registration, we need to get the room owner
+        public async Task<List<ManageUser>> GetRoomOwner()
+        {
+            return await _context.ManageUser
+                .Where(x => x.UserType == 1 && x.IsActive == true).OrderByDescending(x => x.CreatedDate)
+                .ToListAsync();
         }
 
     }

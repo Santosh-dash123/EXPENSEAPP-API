@@ -9,5 +9,6 @@ namespace ExpenseAppAPI.Infrastructure.Data
 
         public DbSet<Room_Mst> Room_Mst { get; set; }
         public DbSet<ManageUser> ManageUser { get; set; }
+        public DbSet<WorkType_Mst> WorkType_Mst { get; set; }
     }
 }

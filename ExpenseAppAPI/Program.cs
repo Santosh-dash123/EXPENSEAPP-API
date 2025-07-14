@@ -19,10 +19,13 @@ builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<RoomService>();
 builder.Services.AddScoped<IManageUserRepository, ManageUserRepository>();
 builder.Services.AddScoped<ManageUserService>();
+builder.Services.AddScoped<IMasterRepository, MasterRepository>();
+builder.Services.AddScoped<MasterService>();
 
 //Code For Mapped Dto 
 builder.Services.AddAutoMapper(typeof(RoomProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(ManageUserProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(MasterProfile).Assembly);
 
 // Add CORS policy
 builder.Services.AddCors(options =>
