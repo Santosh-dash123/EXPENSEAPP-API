@@ -9,6 +9,7 @@ namespace ExpenseAppAPI.Application.Mappings
         public ManageUserProfile()
         {
             CreateMap<ManageUser, ManageUserDto>().ReverseMap();
+            CreateMap<ManageUser, GetRoomOwnerDto>().ReverseMap();
         }
     }
 }

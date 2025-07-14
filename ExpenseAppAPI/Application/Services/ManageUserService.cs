@@ -46,16 +46,16 @@ namespace ExpenseAppAPI.Application.Services
             var result = await _repository.AddUser(user);
             return result;
         }
-        public async Task<ApiResponse<List<ManageUser>>> GetRoomOwner()
+        public async Task<ApiResponse<List<GetRoomOwnerDto>>> GetRoomOwner()
         {
-            var result = await _repository.GetRoomOwner();
+            var result = _mapper.Map<List<GetRoomOwnerDto>>(await _repository.GetRoomOwner());
 
             if (result == null || result.Count == 0)
             {
-                return new ApiResponse<List<ManageUser>>("No room owners found", null);
+                return new ApiResponse<List<GetRoomOwnerDto>>("No room owners found", null);
             }
 
-            return new ApiResponse<List<ManageUser>>("Room owners fetched successfully", result);
+            return new ApiResponse<List<GetRoomOwnerDto>>("Room owners fetched successfully", result);
         }
     }
 }

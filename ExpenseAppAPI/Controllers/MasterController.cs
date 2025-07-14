@@ -23,5 +23,12 @@ namespace ExpenseAppAPI.Controllers
             var result = await _service.GetWorkTypeMaster();
             return Ok(result);
         }
+        [HttpGet]
+        [Route("/GetUserType")]
+        public async Task<ActionResult<ApiResponse<List<UserTypeDto>>>> GetUserType()
+        {
+            var result = await _service.GetUserType();
+            return Ok(result);
+        }
     }
 }

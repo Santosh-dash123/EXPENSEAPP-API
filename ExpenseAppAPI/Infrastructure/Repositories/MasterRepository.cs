@@ -21,5 +21,13 @@ namespace ExpenseAppAPI.Infrastructure.Repositories
                 .Where(x => x.IsActive == true).OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();
         }
+        public async Task<ApiResponse<List<UserType>>> GetUserType()
+        {
+            var userTypes = await _context.UserType
+                .Where(x => x.IsActive == true)
+                .ToListAsync();
+
+            return new ApiResponse<List<UserType>>("User types fetched successfully", userTypes);
+        }
     }
 }

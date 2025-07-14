@@ -9,6 +9,7 @@ namespace ExpenseAppAPI.Application.Mappings
         public MasterProfile()
         {
             CreateMap<WorkType_Mst, WorkTypeMstDto>().ReverseMap();
+            CreateMap<UserType, UserTypeDto>().ReverseMap();
         }
     }
 }

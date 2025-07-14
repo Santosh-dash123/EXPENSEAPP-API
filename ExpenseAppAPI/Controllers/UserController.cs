@@ -50,7 +50,7 @@ namespace ExpenseAppAPI.Controllers
         }
         [HttpGet]
         [Route("/GetRoomOwner")]
-        public async Task<ActionResult<ApiResponse<List<ManageUser>>>> GetRoomOwner()
+        public async Task<ActionResult<ApiResponse<List<GetRoomOwnerDto>>>> GetRoomOwner()
         {
             var result = await _service.GetRoomOwner();
             return Ok(result);

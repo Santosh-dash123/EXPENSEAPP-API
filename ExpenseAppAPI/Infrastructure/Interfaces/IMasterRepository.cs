@@ -5,5 +5,6 @@ namespace ExpenseAppAPI.Infrastructure.Interfaces
     public interface IMasterRepository
     {
         Task<List<WorkType_Mst>> GetWorkTypeMaster();
+        Task<ApiResponse<List<UserType>>> GetUserType();
     }
 }
