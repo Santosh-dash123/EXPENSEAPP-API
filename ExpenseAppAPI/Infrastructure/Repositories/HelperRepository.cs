@@ -49,8 +49,8 @@ namespace ExpenseAppAPI.Infrastructure.Repositories
             {
                 From = new MailAddress(_config["SMTP:From"]!),
                 Subject = "Your OTP for Email Verification",
-                Body = $"Your OTP is {otp}. It will expire in 5 minutes. /n Thanks & Regards Expense Tracker Team",
-                IsBodyHtml = false,
+                Body = $"Your OTP is {otp}.<br/>It will expire in 5 minutes.<br/><br/>Thanks & Regards,<br/>Expense Tracker Team",
+                IsBodyHtml = true,
             };
             mail.To.Add(emailOtpVerification.Email!);
             await smtpClient.SendMailAsync(mail);
