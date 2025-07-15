@@ -5,15 +5,19 @@ using ExpenseAppAPI.Infrastructure.Data;
 using ExpenseAppAPI.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
+using System.Net.Mail;
 
 namespace ExpenseAppAPI.Infrastructure.Repositories
 {
-    public class MasterRepository:IMasterRepository
+    public class MasterRepository : IMasterRepository
     {
         private readonly AppDbContext _context;
-        public MasterRepository(AppDbContext context)
+        private readonly IConfiguration _config;
+        public MasterRepository(AppDbContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
         }
         public async Task<List<WorkType_Mst>> GetWorkTypeMaster()
         {
@@ -29,5 +33,6 @@ namespace ExpenseAppAPI.Infrastructure.Repositories
 
             return new ApiResponse<List<UserType>>("User types fetched successfully", userTypes);
         }
+
     }
 }

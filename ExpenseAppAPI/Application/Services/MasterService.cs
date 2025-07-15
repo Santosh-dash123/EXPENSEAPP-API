@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ExpenseAppAPI.Application.DTOs;
 using ExpenseAppAPI.Application.Response;
+using ExpenseAppAPI.Domain.Entities;
 using ExpenseAppAPI.Infrastructure.Interfaces;
 
 namespace ExpenseAppAPI.Application.Services
@@ -22,7 +23,7 @@ namespace ExpenseAppAPI.Application.Services
         }
         public async Task<ApiResponse<List<UserTypeDto>>> GetUserType()
         {
-            var response = await _repository.GetUserType(); 
+            var response = await _repository.GetUserType();
             var userTypeDtos = _mapper.Map<List<UserTypeDto>>(response.Data);
 
             return new ApiResponse<List<UserTypeDto>>(response.StatusMessage, userTypeDtos);

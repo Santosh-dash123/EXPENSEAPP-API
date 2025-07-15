@@ -21,6 +21,8 @@ builder.Services.AddScoped<IManageUserRepository, ManageUserRepository>();
 builder.Services.AddScoped<ManageUserService>();
 builder.Services.AddScoped<IMasterRepository, MasterRepository>();
 builder.Services.AddScoped<MasterService>();
+builder.Services.AddScoped<IHelperRepository, HelperRepository>();
+builder.Services.AddScoped<HelperService>();
 
 //Code For Mapped Dto 
 builder.Services.AddAutoMapper(typeof(RoomProfile).Assembly);
