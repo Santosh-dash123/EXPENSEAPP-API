@@ -12,5 +12,6 @@ namespace ExpenseAppAPI.Infrastructure.Data
         public DbSet<WorkType_Mst> WorkType_Mst { get; set; }
         public DbSet<UserType> UserType { get; set; }
         public DbSet<EmailOtpVerification> EmailOtpVerification { get; set; }
+        public DbSet<Member_Mst> Member_Mst { get; set; }
     }
 }

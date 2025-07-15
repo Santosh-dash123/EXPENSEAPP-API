@@ -28,6 +28,7 @@ builder.Services.AddScoped<HelperService>();
 builder.Services.AddAutoMapper(typeof(RoomProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(ManageUserProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(MasterProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(MemberProfile).Assembly);
 
 // Add CORS policy
 builder.Services.AddCors(options =>
