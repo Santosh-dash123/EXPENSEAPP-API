@@ -34,5 +34,13 @@ namespace ExpenseAppAPI.Infrastructure.Repositories
             return new ApiResponse<List<UserType>>("User types fetched successfully", userTypes);
         }
 
+        public async Task<ApiResponse<List<Room_Mst>>> GetAllRoom(int RoomOwnerId)
+        {
+            var rooms = await _context.Room_Mst
+                .Where(x => x.IsActive == true && x.RoomOwnerId == RoomOwnerId)
+                .ToListAsync();
+            return new ApiResponse<List<Room_Mst>>("Rooms fetched successfully", rooms);
+
+        }
     }
 }

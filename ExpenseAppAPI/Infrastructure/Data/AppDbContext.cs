@@ -1,4 +1,5 @@
-﻿using ExpenseAppAPI.Domain.Entities;
+﻿using ExpenseAppAPI.Application.DTOs;
+using ExpenseAppAPI.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseAppAPI.Infrastructure.Data
@@ -13,5 +14,7 @@ namespace ExpenseAppAPI.Infrastructure.Data
         public DbSet<UserType> UserType { get; set; }
         public DbSet<EmailOtpVerification> EmailOtpVerification { get; set; }
         public DbSet<Member_Mst> Member_Mst { get; set; }
+        public DbSet<GetMembersByRoomOwnerDto> GetMembersByRoomOwnerDto { get; set; }
     }
+
 }

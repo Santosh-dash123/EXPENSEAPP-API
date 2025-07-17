@@ -15,9 +15,10 @@ namespace ExpenseAppAPI.Application.Services
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<ApiResponse<MemberDto>> AddMembers(List<MemberDto> members)
+        public async Task<ApiResponse<bool>> AddMembers(ListOfMember value)
         {
-            var data = _mapper.Map<List<Member_Mst>>(members);
+            var data = _mapper.Map<List<Member_Mst>>(value);
+            var members = value.MemberData!;
             for (int i = 0; i < members.Count; i++)
             {
                 var memberDto = members[i];
@@ -36,8 +37,46 @@ namespace ExpenseAppAPI.Application.Services
                 
             }
             var response = await _repository.AddMembers(data);
-            var mappedDto = _mapper.Map<MemberDto>(response.Data);
-            return new ApiResponse<MemberDto>(response.StatusMessage, mappedDto);
+            return new ApiResponse<bool>(response.StatusMessage, response.Data);
+        }
+        public async Task<ApiResponse<bool>> UpdateMembers(MemberDto members)
+        {
+            var data = _mapper.Map<Member_Mst>(members);
+            if(members.Image != null)
+            {
+                data.Image = await FileUploadHelper.SaveImageAsync(members.Image!, "assets/documents"); 
+            }
+            if(members.AdharCard != null)
+            {
+                data.AdharCard = await FileUploadHelper.SaveImageAsync(members.AdharCard!, "assets/documents");
+            }
+            var response = await _repository.UpdateMembers(data);
+            return new ApiResponse<bool>(response.StatusMessage, response.Data);
+        }
+        public async Task<ApiResponse<bool>> DeleteMembers(int Id)
+        {
+            var response = await _repository.DeleteMembers(Id);
+            if(response == null)
+            {
+                return new ApiResponse<bool>("Member not found", false);
+            }
+            else
+            {
+                return new ApiResponse<bool>(response.StatusMessage, response.Data);
+            }
+        }
+
+        public async Task<ApiResponse<List<GetMembersByRoomOwnerDto>>> GetAllMembers(int RoomOwnerId)
+        {
+            var response = await _repository.GetAllMembers(RoomOwnerId);
+            if(response == null)
+            {
+                return null!;
+            }
+            else
+            {
+                return response;
+            }
         }
     }
 }

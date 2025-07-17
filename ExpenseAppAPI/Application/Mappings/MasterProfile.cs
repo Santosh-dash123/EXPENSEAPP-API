@@ -10,6 +10,7 @@ namespace ExpenseAppAPI.Application.Mappings
         {
             CreateMap<WorkType_Mst, WorkTypeMstDto>().ReverseMap();
             CreateMap<UserType, UserTypeDto>().ReverseMap();
+            CreateMap<Room_Mst, GetRoomDto>().ReverseMap();
 
             //Mapping for EmailOtpVerification and OtpVerifyModelDto
             CreateMap<EmailOtpVerification, OtpVerifyModelDto>().ReverseMap();

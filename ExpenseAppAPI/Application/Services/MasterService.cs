@@ -28,5 +28,11 @@ namespace ExpenseAppAPI.Application.Services
 
             return new ApiResponse<List<UserTypeDto>>(response.StatusMessage, userTypeDtos);
         }
+        public async Task<ApiResponse<List<GetRoomDto>>> GetAllRoom(int RoomOwnerId)
+        {
+            var response = await _repository.GetAllRoom(RoomOwnerId);
+            var roomDtos = _mapper.Map<List<GetRoomDto>>(response.Data);
+            return new ApiResponse<List<GetRoomDto>>(response.StatusMessage, roomDtos);
+        }
     }
 }

@@ -30,5 +30,12 @@ namespace ExpenseAppAPI.Controllers
             var result = await _service.GetUserType();
             return Ok(result);
         }
+        [HttpGet]
+        [Route("/GetAllRoom/{RoomOwnerId}")]
+        public async Task<ActionResult<ApiResponse<List<GetRoomDto>>>> GetAllRoom(int RoomOwnerId)
+        {
+            var result = await _service.GetAllRoom(RoomOwnerId);
+            return Ok(result);
+        }
     }
 }

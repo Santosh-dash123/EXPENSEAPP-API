@@ -6,5 +6,6 @@ namespace ExpenseAppAPI.Infrastructure.Interfaces
     {
         Task<List<WorkType_Mst>> GetWorkTypeMaster();
         Task<ApiResponse<List<UserType>>> GetUserType();
+        Task<ApiResponse<List<Room_Mst>>> GetAllRoom(int RoomOwnerId);
     }
 }

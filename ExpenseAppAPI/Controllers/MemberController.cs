@@ -17,16 +17,57 @@ namespace ExpenseAppAPI.Controllers
             _service = service;
         }
         [HttpPost("/AddMembers")]
-        public async Task<ApiResponse<MemberDto>> AddMembers([FromForm] List<MemberDto> data)
+        [Consumes("multipart/form-data")]
+        public async Task<ApiResponse<bool>> AddMembers([FromForm] ListOfMember data)
         {
             if (data == null)
             {
-                return new ApiResponse<MemberDto>("Member cannot be empty", null!);
+                return new ApiResponse<bool>("Member cannot be empty", false);
             }
             else
             {
                 var response = await _service.AddMembers(data!);
                 return response;
+            }
+        }
+        [HttpPost("/UpdateMembers")]
+        public async Task<ApiResponse<bool>> UpdateMembers([FromForm] MemberDto data)
+        {
+            if (data == null)
+            {
+                return new ApiResponse<bool>("Member cannot be empty", false);
+            }
+            else
+            {
+                var response = await _service.UpdateMembers(data!);
+                return response;
+            }
+        }
+        [HttpPost("/DeleteMembers")]
+        public async Task<ApiResponse<bool>> DeleteMembers(int Id)
+        {
+            if (Id == 0)
+            {
+                return new ApiResponse<bool>("Member cannot be empty", false);
+            }
+            else
+            {
+                var response = await _service.DeleteMembers(Id!);
+                return response;
+            }
+        }
+
+        [HttpGet("/GetAllMembers/{RoomOwnerId}")]
+        public async Task<ApiResponse<List<GetMembersByRoomOwnerDto>>> GetAllMembers(int RoomOwnerId)
+        {
+            if(RoomOwnerId != 0)
+            {
+                var response = await _service.GetAllMembers(RoomOwnerId);
+                return response;
+            }
+            else
+            {
+                return null!;
             }
         }
     }

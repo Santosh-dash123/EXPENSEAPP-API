@@ -1,4 +1,5 @@
-﻿using ExpenseAppAPI.Application.Response;
+﻿using ExpenseAppAPI.Application.DTOs;
+using ExpenseAppAPI.Application.Response;
 using ExpenseAppAPI.Domain.Entities;
 using ExpenseAppAPI.Infrastructure.Data;
 using ExpenseAppAPI.Infrastructure.Interfaces;
@@ -8,16 +9,16 @@ using Newtonsoft.Json;
 
 namespace ExpenseAppAPI.Infrastructure.Repositories
 {
-    public class MemberRepository:IMemberRepository
+    public class MemberRepository : IMemberRepository
     {
         private readonly AppDbContext _context;
         public MemberRepository(AppDbContext context)
         {
             _context = context;
         }
-        public async Task<ApiResponse<Member_Mst>> AddMembers(List<Member_Mst> members)
+        public async Task<ApiResponse<bool>> AddMembers(List<Member_Mst> members)
         {
-            var response = new ApiResponse<Member_Mst>();
+            var response = new ApiResponse<bool>("", false);
             try
             {
                 string jsonData = JsonConvert.SerializeObject(members);
@@ -25,15 +26,84 @@ namespace ExpenseAppAPI.Infrastructure.Repositories
                 await _context.Database.ExecuteSqlRawAsync("EXEC SP_AddMultipleMembers @JsonData", param);
 
                 response.StatusMessage = "Members inserted successfully.";
-                response.Data = members.FirstOrDefault()!;
+                response.Data = true;
             }
             catch (Exception ex)
             {
                 response.StatusMessage = "Error occurred while inserting members.";
+                response.Data = false;
+            }
+
+            return response;
+        }
+        public async Task<ApiResponse<List<GetMembersByRoomOwnerDto>>> GetAllMembers(int roomOwnerId)
+        {
+            var response = new ApiResponse<List<GetMembersByRoomOwnerDto>>("", null!);
+
+            try
+            {
+                var param = new SqlParameter("@RoomOwnerId", roomOwnerId);
+
+                var result = await _context
+                   .GetMembersByRoomOwnerDto 
+                   .FromSqlRaw("EXEC SP_GetMembersByRoomOwner @RoomOwnerId", param)
+                   .ToListAsync();
+
+                response.StatusMessage = "Members retrieved successfully.";
+                response.Data = result;
+            }
+            catch (Exception ex)
+            {
+                response.StatusMessage = "Error occurred while fetching members.";
                 response.Data = null!;
             }
 
             return response;
+        }
+
+        public async Task<ApiResponse<bool>> UpdateMembers(Member_Mst member)
+        {
+            var response = new ApiResponse<bool>("", false);
+            try
+            {
+                _context.Member_Mst.Update(member);
+                await _context.SaveChangesAsync();
+                response.StatusMessage = "Member updated successfully.";
+                response.Data = true;
+            }
+            catch (Exception ex)
+            {
+                response.StatusMessage = "Error occurred while updating member.";
+                response.Data = false;
+            }
+            return response;
+        }
+        public async Task<ApiResponse<bool>> DeleteMembers(int Id)
+        {
+            var response = new ApiResponse<bool>("", false);
+            try
+            {
+                var existingMember = await _context.Member_Mst.FindAsync(Id);
+                if (existingMember == null)
+                {
+                    response.StatusMessage = "Member not found.";
+                    return response;
+                }
+                else
+                {
+                    existingMember.IsActive = false;
+                }
+                await _context.SaveChangesAsync();
+                response.StatusMessage = "Member deleted successfully.";
+                response.Data = true;
+            }
+            catch (Exception ex)
+            {
+                response.StatusMessage = "Error occurred while deleting member.";
+                response.Data = false!;
+            }
+            return response;
+
         }
     }
 }
