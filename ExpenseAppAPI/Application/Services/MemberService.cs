@@ -17,7 +17,7 @@ namespace ExpenseAppAPI.Application.Services
         }
         public async Task<ApiResponse<bool>> AddMembers(ListOfMember value)
         {
-            var data = _mapper.Map<List<Member_Mst>>(value);
+            var data = _mapper.Map<List<Member_Mst>>(value.MemberData!);
             var members = value.MemberData!;
             for (int i = 0; i < members.Count; i++)
             {
