@@ -13,6 +13,6 @@ namespace ExpenseAppAPI.Infrastructure.Interfaces
         //}
         Task<ApiResponse<bool>> UpdateMembers(Member_Mst member);
         Task<ApiResponse<bool>> DeleteMembers(int Id);
-        Task<ApiResponse<List<GetMembersByRoomOwnerDto>>> GetAllMembers(int roomOwnerId);
+        Task<ApiResponse<List<GetMembersByRoomOwnerDto>>> GetAllMembers(int roomOwnerId,string whichTypeDataGet);
     }
 }

@@ -66,9 +66,9 @@ namespace ExpenseAppAPI.Application.Services
             }
         }
 
-        public async Task<ApiResponse<List<GetMembersByRoomOwnerDto>>> GetAllMembers(int RoomOwnerId)
+        public async Task<ApiResponse<List<GetMembersByRoomOwnerDto>>> GetAllMembers(int RoomOwnerId,string WhichTypeDataGet)
         {
-            var response = await _repository.GetAllMembers(RoomOwnerId);
+            var response = await _repository.GetAllMembers(RoomOwnerId, WhichTypeDataGet);
             if(response == null)
             {
                 return null!;

@@ -57,12 +57,12 @@ namespace ExpenseAppAPI.Controllers
             }
         }
 
-        [HttpGet("/GetAllMembers/{RoomOwnerId}")]
-        public async Task<ApiResponse<List<GetMembersByRoomOwnerDto>>> GetAllMembers(int RoomOwnerId)
+        [HttpGet("/GetAllMembers/{RoomOwnerId}/{WhichTypeDataGet}")]
+        public async Task<ApiResponse<List<GetMembersByRoomOwnerDto>>> GetAllMembers(int RoomOwnerId,string WhichTypeDataGet)
         {
             if(RoomOwnerId != 0)
             {
-                var response = await _service.GetAllMembers(RoomOwnerId);
+                var response = await _service.GetAllMembers(RoomOwnerId, WhichTypeDataGet);
                 return response;
             }
             else

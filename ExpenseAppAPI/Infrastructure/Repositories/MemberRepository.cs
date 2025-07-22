@@ -36,17 +36,18 @@ namespace ExpenseAppAPI.Infrastructure.Repositories
 
             return response;
         }
-        public async Task<ApiResponse<List<GetMembersByRoomOwnerDto>>> GetAllMembers(int roomOwnerId)
+        public async Task<ApiResponse<List<GetMembersByRoomOwnerDto>>> GetAllMembers(int roomOwnerId,string whichTypeDataGet)
         {
             var response = new ApiResponse<List<GetMembersByRoomOwnerDto>>("", null!);
 
             try
             {
                 var param = new SqlParameter("@RoomOwnerId", roomOwnerId);
+                var param2 = new SqlParameter("@WhichTypeDataGet", whichTypeDataGet);
 
                 var result = await _context
                    .GetMembersByRoomOwnerDto 
-                   .FromSqlRaw("EXEC SP_GetMembersByRoomOwner @RoomOwnerId", param)
+                   .FromSqlRaw("EXEC SP_GetMembersByRoomOwner @RoomOwnerId,@WhichTypeDataGet", param,param2)
                    .ToListAsync();
 
                 response.StatusMessage = "Members retrieved successfully.";
